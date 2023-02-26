@@ -3,7 +3,7 @@ import { environment } from '@environments/environment';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent, routes as appRoutes } from '@app/app.component';
 import { provideRouter } from '@angular/router';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { JwtInterceptor, ErrorInterceptor, FakeBackendInterceptor } from '@app/_helpers';
 
 if (environment.production) {
@@ -12,10 +12,10 @@ if (environment.production) {
 
 bootstrapApplication(AppComponent, {
   providers: [
-    importProvidersFrom(HttpClientModule), // provideHttpClient() on v15
+    provideHttpClient(), // provideHttpClient() on v15
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },
-    provideRouter( appRoutes )
+    provideRouter(appRoutes)
   ],
 }).catch(err => console.error(err));

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule, provideRouter, Routes } from '@angular/router';
-import { routes as adminRoutes } from '@app/admin/admin.component';
+// import { routes as adminRoutes } from '@app/admin/admin.component';
 import { AuthGuard } from './_helpers/auth.guard';
 @Component({
   selector: 'huafsoft-root',
@@ -16,9 +16,6 @@ import { AuthGuard } from './_helpers/auth.guard';
   imports: [
     RouterModule,
   ],
-  providers: [
-    provideRouter( adminRoutes )
-  ],
   standalone: true
 })
 export class AppComponent {
@@ -28,7 +25,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadComponent: () => import('@app/admin/admin.component').then(c => c.AdminComponent),
-    canActivate: [AuthGuard]
+    // canActivate: [AuthGuard]
   },
   {
     path: 'register',
