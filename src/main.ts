@@ -1,18 +1,26 @@
+import { InitData } from './app/_helpers/inti-data';
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { environment } from '@environments/environment';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent, routes as appRoutes } from '@app/app.component';
 import { provideRouter } from '@angular/router';
-import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor, ErrorInterceptor, FakeBackendInterceptor } from '@app/_helpers';
 
 if (environment.production) {
   enableProdMode();
 }
-
+function initializeApp(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    // Do some asynchronous stuff
+    console.log('a')
+    resolve('a');
+  });
+}
 bootstrapApplication(AppComponent, {
   providers: [
-    provideHttpClient(), // provideHttpClient() on v15
+    importProvidersFrom(HttpClientModule),
+    provideHttpClient(),
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: FakeBackendInterceptor, multi: true },

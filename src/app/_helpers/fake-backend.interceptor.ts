@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
+import { environment } from '@environments/environment';
+import { IUser } from '@app/_models';
 
-const users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' }];
+const users: IUser[] = [];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
@@ -21,6 +23,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             switch (true) {
                 case url.endsWith('/users/authenticate') && method === 'POST':
                     return authenticate();
+                case url.endsWith(`${environment.apiUrl}/add-new`) && method === 'POST':
+                  return addNewUser();
                 case url.endsWith('/users') && method === 'GET':
                     return getUsers();
                 default:
@@ -30,7 +34,21 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
 
         // route functions
-
+        function addNewUser() {
+          const { username, email, password } = body;
+          let user_existed = users.find(u => u.username == username || u.email == email)
+          if (!user_existed) {
+            users.push({
+              id: users.length as number,
+              username,
+              password,
+              email
+            });
+            return ok(users.at(-1))
+          } else {
+            return error('Người dùng đã tồn tại')
+          }
+        }
         function authenticate() {
             const { username, password } = body;
             const user = users.find(x => x.username === username && x.password === password);
@@ -38,8 +56,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return ok({
                 id: user.id,
                 username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
+                email: user.email,
                 token: 'fake-jwt-token'
             })
         }

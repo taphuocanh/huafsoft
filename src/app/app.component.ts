@@ -1,3 +1,5 @@
+import { inject } from '@angular/core';
+import { InitData } from './_helpers/inti-data';
 import { Component } from '@angular/core';
 import { RouterModule, provideRouter, Routes } from '@angular/router';
 // import { routes as adminRoutes } from '@app/admin/admin.component';
@@ -13,6 +15,7 @@ import { AuthGuard } from './_helpers/auth.guard';
     <router-outlet></router-outlet>
   `,
   styleUrls: ['./app.component.scss'],
+  providers: [InitData],
   imports: [
     RouterModule,
   ],
@@ -20,12 +23,13 @@ import { AuthGuard } from './_helpers/auth.guard';
 })
 export class AppComponent {
   title = 'huafsoft';
+  constructor(private initData: InitData) { }
 }
 export const routes: Routes = [
   {
     path: 'admin',
     loadComponent: () => import('@app/admin/admin.component').then(c => c.AdminComponent),
-    // canActivate: [AuthGuard]
+    canActivate: [AuthGuard]
   },
   {
     path: 'register',
