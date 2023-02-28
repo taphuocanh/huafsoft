@@ -28,6 +28,10 @@ export class AppComponent {
 }
 export const routes: Routes = [
   {
+    path: 'home',
+    loadComponent: () => import('@app/pages').then(c => c.PageHomeComponent)
+  },
+  {
     path: 'admin',
     loadComponent: () => import('@app/admin/admin.component').then(c => c.AdminComponent),
     canActivate: [AuthGuard]
@@ -40,5 +44,5 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('@app/authentication/login.component').then(c => c.LoginComponent)
   },
-  { path: '**', redirectTo: '' }
+  { path: '', pathMatch: 'full', redirectTo: '/home' }
 ];

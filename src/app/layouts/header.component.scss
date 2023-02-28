@@ -1,0 +1,40 @@
+:host {
+  header {
+    align-items: center;
+    background: green;
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+
+    .top-logo-wrapper {
+      h3 {
+        margin: 0;
+      }
+    }
+
+    .top-navbar-wrapper {
+      margin-left: auto;
+      .navbar {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        .nav-item {
+          .nav-link {
+            color: #FFF;
+            display: block;
+            text-decoration: none;
+            padding: 3px 10px;
+            border-radius: 3px;
+
+            &.active {
+              background: rgba(255,255,255,0.2);
+            }
+          }
+        }
+      }
+    }
+  }
+}
