@@ -4,20 +4,21 @@ import { Component } from '@angular/core';
 import { RouterModule, provideRouter, Routes } from '@angular/router';
 // import { routes as adminRoutes } from '@app/admin/admin.component';
 import { AuthGuard } from './_helpers/auth.guard';
+import { HeaderComponent } from './layouts/header.component';
+import { FooterComponent } from './layouts/footer.component';
 @Component({
   selector: 'huafsoft-root',
   template: `
-    <p>Hello world!</p>
-    <a routerLink="/">Home</a>
-    <a routerLink="/admin">Admin</a>
-    <a routerLink="/login">Login</a>
-    <a routerLink="/register">Register</a>
+    <huafsoft-header [title]="title"></huafsoft-header>
     <router-outlet></router-outlet>
+    <huafsoft-footer></huafsoft-footer>
   `,
   styleUrls: ['./app.component.scss'],
   providers: [InitData],
   imports: [
     RouterModule,
+    HeaderComponent,
+    FooterComponent
   ],
   standalone: true
 })
