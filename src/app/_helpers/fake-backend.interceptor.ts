@@ -5,11 +5,18 @@ import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { IUser } from '@app/_models';
 
-const users: IUser[] = [];
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
+    private users: IUser[] = [{
+        id: 1,
+        email: 'admin@taphuocanh.com',
+        username: 'admin',
+        password: '123456'
+    }];
+
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let that = this;
         const { url, method, headers, body } = request;
 
         // wrap in delayed observable to simulate server api call
@@ -24,7 +31,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 case url.endsWith('/users/authenticate') && method === 'POST':
                     return authenticate();
                 case url.endsWith(`${environment.apiUrl}/add-new`) && method === 'POST':
-                  return addNewUser();
+                    return addNewUser();
                 case url.endsWith('/users') && method === 'GET':
                     return getUsers();
                 default:
@@ -35,23 +42,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // route functions
         function addNewUser() {
-          const { username, email, password } = body;
-          let user_existed = users.find(u => u.username == username || u.email == email)
-          if (!user_existed) {
-            users.push({
-              id: users.length as number,
-              username,
-              password,
-              email
-            });
-            return ok(users.at(-1))
-          } else {
-            return error('Người dùng đã tồn tại')
-          }
+            const { username, email, password } = body;
+            let user_existed = that.users.find(u => u.username == username || u.email == email)
+            if (!user_existed) {
+                that.users.push({
+                    id: that.users.length as number,
+                    username,
+                    password,
+                    email
+                });
+                return ok(that.users.at(-1))
+            } else {
+                return error('Người dùng đã tồn tại')
+            }
         }
         function authenticate() {
             const { username, password } = body;
-            const user = users.find(x => x.username === username && x.password === password);
+            const user = that.users.find(x => x.username === username && x.password === password);
             if (!user) return error('Username or password is incorrect');
             return ok({
                 id: user.id,
@@ -63,7 +70,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         function getUsers() {
             if (!isLoggedIn()) return unauthorized();
-            return ok(users);
+            return ok(that.users);
         }
 
         // helper functions
