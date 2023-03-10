@@ -3,10 +3,16 @@ import { Component } from "@angular/core";
 @Component({
   selector: 'huafsoft-authentication-layout',
   template: `
-    <p>top layout</p>
-    <ng-content></ng-content>
-    <p>bottom layout</p>
+    <div class="container">
+      <div class="row">
+        <ng-content></ng-content>
+      </div>
+    </div>
+
   `,
+  styleUrls: [
+    './authentication-layout.component.scss'
+  ],
   standalone: true
 })
-export class AuthenticationLayoutComponent {}
+export class AuthenticationLayoutComponent { }
