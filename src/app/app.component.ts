@@ -1,20 +1,17 @@
-import { inject } from '@angular/core';
-import { InitData } from './_helpers/inti-data';
 import { Component } from '@angular/core';
-import { RouterModule, provideRouter, Routes } from '@angular/router';
-// import { routes as adminRoutes } from '@app/admin/admin.component';
+import {provideRouter, provideRoutes, RouterModule, ROUTES, Routes} from '@angular/router';
+import { routes as adminRoutes } from '@app/admin/admin.component';
 import { AuthGuard } from './_helpers/auth.guard';
 import { HeaderComponent } from './layouts/header.component';
 import { FooterComponent } from './layouts/footer.component';
 @Component({
   selector: 'huafsoft-root',
   template: `
-    <huafsoft-header [title]="title"></huafsoft-header>
+<!--    <huafsoft-header [title]="title"></huafsoft-header>-->
     <router-outlet></router-outlet>
     <huafsoft-footer></huafsoft-footer>
   `,
   styleUrls: ['./app.component.scss'],
-  providers: [InitData],
   imports: [
     RouterModule,
     HeaderComponent,
@@ -24,7 +21,7 @@ import { FooterComponent } from './layouts/footer.component';
 })
 export class AppComponent {
   title = 'huafsoft';
-  constructor(private initData: InitData) { }
+  constructor() { }
 }
 export const routes: Routes = [
   {
@@ -34,6 +31,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadComponent: () => import('@app/admin/admin.component').then(c => c.AdminComponent),
+    loadChildren: () => import('@app/admin/admin.component').then(c => c.routes),
     canActivate: [AuthGuard]
   },
   {

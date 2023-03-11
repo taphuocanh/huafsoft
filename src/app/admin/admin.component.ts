@@ -1,11 +1,22 @@
 import { Component } from "@angular/core";
-import { Routes } from "@angular/router";
+import {RouterOutlet, ROUTES, Routes} from "@angular/router";
+
+export const routes: Routes = [
+  {
+    path: 'login',
+    loadComponent: () => import('@app/admin/modules/authentication/login.component').then(c => c.LoginComponent)
+  }
+];
 
 @Component({
   selector: 'huafsoft-admin',
   template: `
-    <p>Admin area wroks!</p>
+    <p><small>Khu vực quản trị viên</small></p>
+    <router-outlet></router-outlet>
   `,
+  imports: [
+    RouterOutlet
+  ],
   standalone: true
 })
 export class AdminComponent {
@@ -16,9 +27,3 @@ export class AdminComponent {
 }
 
 
-// export const routes: Routes = [
-//   {
-//     path: 'admin',
-//     loadComponent: () => import('@app/admin/admin.component').then(c => c.AdminComponent)
-//   }
-// ];

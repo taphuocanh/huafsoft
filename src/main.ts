@@ -1,4 +1,3 @@
-import { InitData } from './app/_helpers/inti-data';
 import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { environment } from '@environments/environment';
 import { bootstrapApplication } from '@angular/platform-browser';
@@ -10,13 +9,7 @@ import { JwtInterceptor, ErrorInterceptor, FakeBackendInterceptor } from '@app/_
 if (environment.production) {
   enableProdMode();
 }
-function initializeApp(): Promise<any> {
-  return new Promise((resolve, reject) => {
-    // Do some asynchronous stuff
-    console.log('a')
-    resolve('a');
-  });
-}
+
 bootstrapApplication(AppComponent, {
   providers: [
     importProvidersFrom(HttpClientModule),
