@@ -1,7 +1,25 @@
+@import 'app/_variables.scss';
+
+:root {
+  --lightness:100%; /*the initial lightness*/
+  --primary-color: #{$primary-color};
+  --primary-color-darker: #{$primary-color-darker};
+  --primary-color-darkest: #{$primary-color-darkest};
+}
+
 body {
   background: #eef3ee;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   font-size: 13px;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: $primary-color;
+}
+
+p {
   margin: 0;
 }
 
@@ -16,4 +34,51 @@ body {
     flex-direction: row;
     align-items: center;
   }
+}
+
+.widget {
+  background: #FFFFFF;
+  padding: 15px;
+  border-radius: 3px;
+
+  .widget-title {
+    margin: 0;
+  }
+}
+
+form {
+
+}
+
+.form-control {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+
+  .form-label {
+
+  }
+
+  .form-field {
+    min-width: 200px;
+  }
+}
+
+//Helper class
+
+.d-flex {
+  display: flex !important;
+
+  &.flex-row {
+    flex-direction: row !important;
+  }
+
+  &.flex-column {
+    flex-direction: column !important;
+  }
+}
+
+
+.ms-auto {
+  margin-left: auto !important;
 }

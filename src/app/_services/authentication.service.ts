@@ -24,8 +24,8 @@ export class AuthenticationService {
         return this.userSubject.value;
     }
 
-    login(username: string, password: string) {
-        return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { username, password })
+    login(email: string, password: string) {
+        return this.http.post<any>(`${environment.apiUrl}/users/authenticate`, { email, password })
             .pipe(map(user => {
                 // store user details and jwt token in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
@@ -34,10 +34,22 @@ export class AuthenticationService {
             }));
     }
 
-    logout() {
+    logout(path: string | null = null) {
         // remove user from local storage to log user out
         localStorage.removeItem('user');
         this.userSubject.next(null);
+        if (path) {
+          this.router.navigate([path]);
+        } else {
         this.router.navigate(['/login']);
+        }
     }
+
+  isLogged(): boolean {
+    let user = this.userValue;
+    if (user) {
+      return true;
+    }
+    return false;
+  }
 }
